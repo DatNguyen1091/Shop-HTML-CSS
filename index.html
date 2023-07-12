@@ -13,7 +13,7 @@
         <div id="header">
             <!-- Begin: Nav -->
             <ul id="nav">
-                <a href="http://127.0.0.1:5500/">Materials e-shop</a>
+                <a href="http://localhost:5500/index.html">Materials e-shop</a>
             </ul>
             <!-- End: Nav -->
             <!-- Begin: Search button -->
@@ -28,13 +28,13 @@
             <div class="text-content">
                 <h2 class="text-heading">Filter By</h2>
                 <div class="paging">
-                    <button type='submit' name='submit' class="page-back">&laquo;</button>
-                    <button type='submit' name='submit' class="page-link active">1</button>
-                    <button type='submit' name='submit' class="page-link">2</button>
-                    <button type='submit' name='submit' class="page-link">3</button>
-                    <button type='submit' name='submit' class="page-link">4</button>
-                    <button type='submit' name='submit' class="page-link">5</button>
-                    <button type='submit' name='submit' class="page-next">&raquo;</button>
+                    <button type="button" class="page-back">&laquo;</button>
+                    <button type="button" class="page-link" value="1">1</button>
+                    <button type="button" class="page-link" value="2">2</button>
+                    <button type="button" class="page-link" value="3">3</button>
+                    <button type="button" class="page-link" value="4">4</button>
+                    <button type="button" class="page-link" value="5">5</button>
+                    <button type="button" class="page-next">&raquo;</button>
                   </div>
             </div>
         </div>
@@ -75,52 +75,70 @@
 
     <!-- JQuery -->
     <script>
-        $(document).ready(function(){
-        // Xử lý sự kiện paging
-        $('.page-link').click(function(e){
-            
-            $('.page-link').removeClass('active');
-            $(this).addClass('active');
-        });
-
-        $('.page-back').click(function(e) {
-            var currentPage = $('.paging .active');
-            var prevPage = $('.paging .active').prev('.page-link');
-            currentPage.removeClass('active');
-            prevPage.addClass('active');
-        });
-        $('.page-next').click(function(e) {
-            var currentPage = $('.paging .active');
-            var nextPage = currentPage.next('.page-link');
-            currentPage.removeClass('active');
-            nextPage.addClass('active');
-        });
-        // Get Products
-        var domain = "https://localhost:7088";
-        $.get(domain + "/api/Products", function(data){
-            $.each(data, function(index, p){
-                var newItem = $("<div class='item'></div>");
-                
-                var newImg = $("<img class='item-img'>");
-                var newCaption = $("<p class='item-caption'></p>");
-                var newPrice = $("<p class='item-price'></p>");
-                var newCartLink = $("<button type='submit' name='submit' class='item-cart'>Add to Cart</button>");
-
-                newImg.attr("src", p.imageUrl);
-                newCaption.text(p.name);
-                newPrice.text("$" + p.price);
-
-                newItem.append(newImg);
-                newItem.append(newCaption);
-                newItem.append(newPrice);
-                newItem.append(newCartLink);
-
-                $(".item-list").append(newItem);
+        $(document).ready(function() {
+            // Xử lý sự kiện paging
+            $('.page-link').click(function(e) {
+                var value = $(this).val();
+                loadProducts(value);
+                $('.page-link').removeClass('active');
+                $(this).addClass('active');
+                localStorage.setItem('currentPage', value);
             });
+            // Quay lại trang trước
+            $('.page-back').click(function(e) {
+                var currentPage = parseInt(localStorage.getItem('currentPage'));
+                if (currentPage > 1) {
+                var prevPage = currentPage - 1;
+                loadProducts(prevPage);
+                $('.page-link').removeClass('active');
+                $('.page-link[value="' + prevPage + '"]').addClass('active');
+                localStorage.setItem('currentPage', prevPage);
+                }
+            });
+            // trang tiếp theo
+            $('.page-next').click(function(e) {
+                var currentPage = parseInt(localStorage.getItem('currentPage'));
+                var nextPage = currentPage + 1;
+                loadProducts(nextPage);
+                $('.page-link').removeClass('active');
+                $('.page-link[value="' + nextPage + '"]').addClass('active');
+                localStorage.setItem('currentPage', nextPage);
+            });
+            // Reload trang
+            var currentPage = parseInt(localStorage.getItem('currentPage'));
+            if (currentPage) {
+                loadProducts(currentPage);
+                $('.page-link[value="' + currentPage + '"]').addClass('active');
+            }
         });
-    });
+        
+        // Get products
+        var domain = "https://localhost:7088";
+        function loadProducts(page) {
+            $.get(domain + "/api/Products?page=" + page, function(data) {
+            $(".item-list").empty();
+                $.each(data, function(index, p) {
+                    var newItem = $("<div class='item'></div>");
+
+                    var newImg = $("<img class='item-img'>");
+                    var newCaption = $("<p class='item-caption'></p>");
+                    var newPrice = $("<p class='item-price'></p>");
+                    var newCartLink = $("<button type='submit' name='submit' class='item-cart'>Add to Cart</button>");
+
+                    newImg.attr("src", p.imageUrl);
+                    newCaption.text(p.name);
+                    newPrice.text("$" + p.price);
+
+                    newItem.append(newImg);
+                    newItem.append(newCaption);
+                    newItem.append(newPrice);
+                    newItem.append(newCartLink);
+
+                    $(".item-list").append(newItem);
+                });
+            });
+        }
     </script>
-    
 </body>
 
 </html>
