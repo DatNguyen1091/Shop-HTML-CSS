@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="js/app.js"></script>
+    <link rel="stylesheet" href="/Login-Signup/assets/css/style.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"> 
+    <title>SignUp</title>
+</head>
+<body>
+    <div id="header">
+        <!-- Begin: Nav -->
+        <ul id="nav">
+            <a href="http://localhost:5500/index.html">Materials e-shop</a>
+        </ul>
+        <!-- End: Nav -->
+    </div>
+    
+    <div id="wrapper">
+        <form action="" id="form-login">
+            <h1 class="form-heading">Account sign-up</h1>
+            <div class="form-group">
+                <i class="far fa-user"></i>
+                <input type="text" class="form-input" placeholder="Login name">
+            </div>
+            <div class="form-group">
+                <i class="fas fa-key"></i>
+                <input type="password" class="form-input" placeholder="Password">
+                <div id="eye">
+                    <i class="far fa-eye"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <i class="fas fa-key"></i>
+                <input type="password" class="form-input" placeholder="Enter the password">
+                <div id="eye">
+                    <i class="far fa-eye"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <i>G</i>
+                <input type="text" class="form-input" placeholder="Email">
+            </div>
+            <input type="submit" value="Sign up" class="form-submit">
+            <div class="signup">
+                <a href="login.html">Back to login</a>
+            </div>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('#eye').click(function(){
+                $(this).toggleClass('open');
+                $(this).children('i').toggleClass('fa-eye-slash fa-eye');
+                if($(this).hasClass('open')){
+                    $(this).prev().attr('type', 'text');
+                }else{
+                    $(this).prev().attr('type', 'password');
+                }
+            });
+
+            $('.form-submit').click(function() {
+                alert("Sign Up Success!");
+            });
+        });
+    </script>
+</body>
+</html>
