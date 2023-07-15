@@ -16,11 +16,15 @@
                 <a href="http://localhost:5500/index.html">Materials e-shop</a>
             </ul>
             <!-- End: Nav -->
+
             <!-- Begin: Search button -->
             <div class="search-bth">
                 <a href="" class="search-icon ti-shopping-cart"></a>
             </div>
             <!-- End: Search button -->
+            <div class="header-login">
+                <a href="/Login-Signup/login.html">Login</a>
+            </div>
         </div>
 
         <!-- Begin: slider -->
@@ -110,6 +114,14 @@
                 loadProducts(currentPage);
                 $('.page-link[value="' + currentPage + '"]').addClass('active');
             }
+
+
+            $(".item-list").on("click", ".item-img", function() {
+                var productId = $(this).attr("product-id");
+                localStorage.setItem("productId", productId);
+                var detailPageUrl = "detail.html";
+                window.location.href = detailPageUrl;
+            });
         });
         
         // Get products
@@ -126,6 +138,8 @@
                     var newCartLink = $("<button type='submit' name='submit' class='item-cart'>Add to Cart</button>");
 
                     newImg.attr("src", p.imageUrl);
+                    newImg.attr("product-id", p.id);  
+
                     newCaption.text(p.name);
                     newPrice.text("$" + p.price);
 

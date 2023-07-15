@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materials E-Shop</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="/assets/icon/themify-icons-font/themify-icons/themify-icons.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+    <div id="main">
+        <div id="header">
+            <!-- Begin: Nav -->
+            <ul id="nav">
+                <a href="http://localhost:5500/index.html">Materials e-shop</a>
+            </ul>
+            <!-- End: Nav -->
+            <!-- Begin: Search button -->
+            <div class="search-bth">
+                <a href="" class="search-icon ti-shopping-cart"></a>
+            </div>
+            <!-- End: Search button -->
+        </div>
+
+        <div id="ProductById">
+            <img src="" class="item-img">
+            <p class="item-caption"></p>
+            <p class="item-price"></p>
+            <p class="item-oldprice"></p>
+            <button type='submit' name='submit' class='item-cart'>Add to Cart</button>
+            <p class="description">Description:</p> 
+            <p class="item-description"></p>  
+         </div> 
+
+    </div>
+
+
+
+    <!-- JQuery -->
+    <script>     
+         $(document).ready(function() {
+            var domain = "https://localhost:7088";
+            var ID = localStorage.getItem("productId");
+            $.get(domain + "/api/Products/" + ID, function(data) {
+            $(".item-list").empty();
+            $(".item-img").attr("src", data.imageUrl);
+            $(".item-caption").text(data.name);
+            $(".item-price").text("Current price: $" + data.price);
+            $(".item-oldprice").text("Old price: $" + data.oldPrice);
+            $(".item-description").text(data.description);
+            });
+        });       
+    </script>
+</body>
+
+</html>
