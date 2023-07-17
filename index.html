@@ -23,7 +23,8 @@
             </div>
             <!-- End: Search button -->
             <div class="header-login">
-                <a href="/Login-Signup/login.html">Login</a>
+                <a class = "login" href="/Login-Signup/login.html">Login</a>
+                <a class = "logout" href="#">Logout</a>
             </div>
         </div>
 
@@ -115,15 +116,35 @@
                 $('.page-link[value="' + currentPage + '"]').addClass('active');
             }
 
-
             $(".item-list").on("click", ".item-img", function() {
-                var productId = $(this).attr("product-id");
-                localStorage.setItem("productId", productId);
-                var detailPageUrl = "detail.html";
-                window.location.href = detailPageUrl;
+                var Logged = localStorage.getItem('Logged');
+                if(Logged === 'true'){
+                    var productId = $(this).attr("product-id");
+                    localStorage.setItem("productId", productId);
+                    var detailPageUrl = "detail.html";
+                    window.location.href = detailPageUrl;
+                } else {
+                    alert('You must be logged in to view product details!');
+                }
+            });
+
+            checkLoginStatus();
+
+            // Logout 
+            $('.logout').click(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: 'https://localhost:7088/api/Users/Logout',
+                    type: 'GET',
+                    success: function(response) {
+                        console.log(response);
+                        window.location.href = '/index.html';
+                        localStorage.setItem('Logged', 'false');
+                    }
+                });
             });
         });
-        
+
         // Get products
         var domain = "https://localhost:7088";
         function loadProducts(page) {
@@ -151,6 +172,21 @@
                     $(".item-list").append(newItem);
                 });
             });
+        }
+
+        function checkLoginStatus() {
+            var Logged = localStorage.getItem('Logged');
+
+            if (Logged === 'true')  
+            {
+                $('.login').hide();
+                $('.logout').show();
+            }
+            else 
+            {
+                $('.login').show();
+                $('.logout').hide();
+            }
         }
     </script>
 </body>
