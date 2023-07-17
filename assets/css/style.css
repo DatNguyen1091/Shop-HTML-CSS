@@ -43,7 +43,8 @@ html{
     font-size: 30px;
     line-height: 46px; 
 }
-#header .header-login a{
+#header .header-login .logout,
+#header .header-login .login{
     text-decoration: none;
     float: right;
     background-color: darkblue;

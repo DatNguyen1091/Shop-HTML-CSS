@@ -51,7 +51,8 @@ body{
     padding-top: 5px;
     padding-right: 10px;
 }
-.form-input{
+.form-inputname,
+.form-inputpass{
     background: transparent;
     border: 0;
     outline: 0;

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script src="js/app.js"></script>
     <link rel="stylesheet" href="/Login-Signup/assets/css/style.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"> 
     <title>Login</title>
@@ -23,14 +22,16 @@
             <h1 class="form-heading">Login</h1>
             <div class="form-group">
                 <i class="far fa-user"></i>
-                <input type="text" class="form-input" placeholder="Login name">
+                <input type="text" class="form-inputname" id = "username" placeholder="Login name">
             </div>
+
             <div class="form-group">
                 <i class="fas fa-key"></i>
-                <input type="password" class="form-input" placeholder="Password">
+                <input type="password" class="form-inputpass" id="password" placeholder="Password">
                 <div id="eye">
                     <i class="far fa-eye"></i>s
                 </div>  
+
             </div>
             <input type="submit" value="Login" class="form-submit">
             <div class="signup">
@@ -50,11 +51,34 @@
                     $(this).prev().attr('type', 'password');
                 }
             });
+            
+            // Login
+            $("#form-login").submit(function(e) {
+                e.preventDefault();
 
-            $('.form-submit').click(function() {
-                alert("Logged in successfully!");
+                var username = $("#username").val();
+                var password = $("#password").val();
+
+                $.ajax({
+                    url: 'https://localhost:7088/api/Users/Login?username=' + username + "&password=" + password,
+                    type: 'POST',
+                    data: {
+                        username: username,
+                        password: password
+                    },
+                    success: function(response) {                     
+                        console.log(response);
+                        window.location.href = '/index.html';
+                        localStorage.setItem('Logged', 'true');
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.log(xhr.status + ': ' + xhr.responseText);
+                        alert('Incorrect account or password!');
+                    }
+                });
             });
         });
+
     </script>
 </body>
 </html>
