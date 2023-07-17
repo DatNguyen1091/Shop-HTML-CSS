@@ -38,19 +38,29 @@
 
 
     <!-- JQuery -->
-    <script>     
-         $(document).ready(function() {
-            var domain = "https://localhost:7088";
-            var ID = localStorage.getItem("productId");
-            $.get(domain + "/api/Products/" + ID, function(data) {
-            $(".item-list").empty();
-            $(".item-img").attr("src", data.imageUrl);
-            $(".item-caption").text(data.name);
-            $(".item-price").text("Current price: $" + data.price);
-            $(".item-oldprice").text("Old price: $" + data.oldPrice);
-            $(".item-description").text(data.description);
+    <script>   
+      $(document).ready(function() {
+            var domain = 'https://localhost:7088';
+            var ID = localStorage.getItem('productId');
+
+            $.ajax({
+                url: domain + '/api/Products/' + ID,
+                type: 'GET',
+                success: function(data) {
+                    // Xử lý dữ liệu trả về
+                    $(".item-list").empty();
+                    $(".item-img").attr("src", data.imageUrl);
+                    $(".item-caption").text(data.name);
+                    $(".item-price").text("Current price: $" + data.price);
+                    $(".item-oldprice").text("Old price: $" + data.oldPrice);
+                    $(".item-description").text(data.description);
+                    console.log(data);
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.log(xhr.status + ': ' + xhr.responseText);
+                }
             });
-        });       
+        });
     </script>
 </body>
 
