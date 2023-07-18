@@ -12,7 +12,7 @@
     <div id="header">
         <!-- Begin: Nav -->
         <ul id="nav">
-            <a href="http://localhost:5500/index.html">Materials e-shop</a>
+            <a href="http://127.0.0.1:5500/index.html">Materials e-shop</a>
         </ul>
         <!-- End: Nav -->
     </div>
@@ -60,7 +60,7 @@
                 var password = $("#password").val();
 
                 $.ajax({
-                    url: 'https://localhost:7088/api/Users/Login?username=' + username + "&password=" + password,
+                    url: 'https://localhost:7088/api/Users/Login?username=' + username + '&password=' + password,
                     type: 'POST',
                     data: {
                         username: username,

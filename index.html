@@ -13,7 +13,7 @@
         <div id="header">
             <!-- Begin: Nav -->
             <ul id="nav">
-                <a href="http://localhost:5500/index.html">Materials e-shop</a>
+                <a href="http://127.0.0.1:5500/index.html">Materials e-shop</a>
             </ul>
             <!-- End: Nav -->
 
@@ -135,7 +135,7 @@
                 e.preventDefault();
                 $.ajax({
                     url: 'https://localhost:7088/api/Users/Logout',
-                    type: 'GET',
+                    type: 'POST',
                     success: function(response) {
                         console.log(response);
                         window.location.href = '/index.html';
